@@ -28,13 +28,13 @@ namespace YoutubeFollower.Controllers
             return Ok(channels);
         }
         [HttpPost]
-        public async Task<ActionResult> AddChannel(ChannelVM channelVM)
+        public async Task<ActionResult> AddChannel(string Id)
         {
-            var channelSnippet = _mapper.Map<ChannelSnippet>(channelVM);
+            //var channelSnippet = _mapper.Map<ChannelSnippet>(channelVM);
 
-            await _repository.AddChannelSnippet(channelSnippet);
+            await _repository.AddChannelSnippet(Id);
 
-            return Ok(channelSnippet);
+            return Ok(Id);
         }
         [HttpDelete]
         public async Task<ActionResult> RemoveChannel(string Id)

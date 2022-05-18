@@ -4,13 +4,7 @@ using YoutubeFollower.Models;
 
 namespace YoutubeFollower.Client
 {
-    //  Is it ok to return NULL, when there are no videos or comments?
-    //  Where to store interfaces, extencions etc?
-    //  How to add? Trasient or Singleton? or Scoped
-    //  Do i have ok stared channels system? (In repository)
-    //  What is DTO and when to use it?
     //  How to set up visual studio auto formatinng, is it possible?
-    //  How to route actions?
     public class YoutubeClient : IYoutubeClient
     {
         private const string API_KEY = "AIzaSyB19QL3O1VJPWOnAqAJuvjWQkXBLxQ6TBI";
@@ -24,7 +18,7 @@ namespace YoutubeFollower.Client
         }
         public async Task<Channel> GetChannelAsync(string channelId)
         {
-            var channel = GetChannelById(channelId);
+            var channel = GetChannelInfo(channelId);
             var videos = GetVideosById(channelId);
             var comments = GetCommentsById(channelId);
 
@@ -36,7 +30,7 @@ namespace YoutubeFollower.Client
             return channel.Result;
         }
         //Sample link: https://www.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&id=UCRbni8punxajnQgnuOjfbyg&key=AIzaSyB19QL3O1VJPWOnAqAJuvjWQkXBLxQ6TBI
-        public async Task<Channel> GetChannelById(string channelId) //UCRbni8punxajnQgnuOjfbyg
+        public async Task<Channel> GetChannelInfo(string channelId) //UCRbni8punxajnQgnuOjfbyg
         {
             string url = $"{URL}channels?part=snippet%2CcontentDetails%2Cstatistics&id={channelId}&key={API_KEY}";
 

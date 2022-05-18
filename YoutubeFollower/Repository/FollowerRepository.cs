@@ -1,12 +1,16 @@
 ﻿using DataAccessLibrary.DataAccess;
 using DataAccessLibrary.Models;
+using YoutubeFollower.Client;
 using YoutubeFollower.Exceptions;
+using YoutubeFollower.Json;
+using YoutubeFollower.Models;
 
 namespace YoutubeFollower.Repository
 {
     public class FollowerRepository : IFollowerRepository
     {
         private FollowerDbContext _context { get; }
+
         public FollowerRepository(FollowerDbContext context)
         {
             _context = context;
@@ -30,16 +34,32 @@ namespace YoutubeFollower.Repository
                 throw new ChannelNotExistsException();
             return starredChannnel;
         }
-        public async Task AddChannelSnippet(ChannelSnippet channelSnippet)
+        public async Task AddChannelSnippet(string channelId)
         {
+            var channel = new Channel();
+            var client = new YoutubeClient(new HttpClient(), new JsonConverter());
             try
             {
+                channel = await client.GetChannelInfo(channelId);
+            }
+            catch 
+            {
+                throw new ChannelNotExistsException();
+            }
+            try
+            {
+                var channelSnippet = new ChannelSnippet
+                {
+                    Id = channel.Id,
+                    Name = channel.Title,
+                    IsStared = false
+                };
                 _context.Channels.Add(channelSnippet);
                 await _context.SaveChangesAsync();
             }
             catch
             {
-                if (_context.Channels.Any(ch => ch.Id == channelSnippet.Id))
+                if (_context.Channels.Any(ch => ch.Id == channelId))
                 {
                     throw new ChannelAlreadyExistsException();
                 }

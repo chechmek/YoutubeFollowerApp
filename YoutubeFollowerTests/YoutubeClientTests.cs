@@ -22,7 +22,7 @@ namespace YoutubeFollowerTests
             string channelid = TestData.ChannelId;
             var expected = TestData.ChechmekChannel;
 
-            var actual = await _ytclient.GetChannelById(channelid);
+            var actual = await _ytclient.GetChannelInfo(channelid);
 
             Assert.NotNull(actual);
             Assert.Equal(expected.Id, actual.Id);
