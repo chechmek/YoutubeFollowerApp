@@ -16,5 +16,6 @@ namespace DataAccessLibrary.Models
         [Required]
         [DefaultValue("false")]
         public bool IsStared { get; set; }
+        public List<StatisticsDb> Statistic { get; set; }
     }
 }

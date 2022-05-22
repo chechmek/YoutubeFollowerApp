@@ -5,6 +5,7 @@ using YoutubeFollower.Json;
 using YoutubeFollower.Mapper;
 using YoutubeFollower.Middlewares;
 using YoutubeFollower.Repository;
+using YoutubeFollower.Tracker;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,16 +14,20 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddHttpClient();
-builder.Services.AddYoutubeClient();
-builder.Services.AddFollowerRepository();
-builder.Services.AddJsonConverter();
+
+
 builder.Services.AddAutoMapper(cfg => cfg.AddProfile(new MapperProfile()));
 builder.Services.AddDbContext<FollowerDbContext>(options =>
 {
     string ConnectionString = builder.Configuration.GetConnectionString("Default");
     options.UseSqlServer(ConnectionString);
 });
+builder.Services.AddHttpClient();
+builder.Services.AddJsonConverter();
+builder.Services.AddYoutubeClient();
+builder.Services.AddFollowerRepository();
+
+builder.Services.AddHostedService<ChannelTracker>();
 
 var app = builder.Build();
 

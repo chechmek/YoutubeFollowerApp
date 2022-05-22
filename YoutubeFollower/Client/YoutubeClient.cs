@@ -5,6 +5,7 @@ using YoutubeFollower.Models;
 namespace YoutubeFollower.Client
 {
     //  How to set up visual studio auto formatinng, is it possible?
+    //  ChannelTracker: so in stackoverflow i red that i used an anti-pattern, but there are no way to avoid it. And what i actually did?)
     public class YoutubeClient : IYoutubeClient
     {
         private const string API_KEY = "AIzaSyB19QL3O1VJPWOnAqAJuvjWQkXBLxQ6TBI";

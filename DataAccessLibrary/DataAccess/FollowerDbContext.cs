@@ -7,8 +7,11 @@ namespace DataAccessLibrary.DataAccess
     {
         public FollowerDbContext(DbContextOptions options) : base(options)
         {
+
+            //Database.EnsureDeleted();
             Database.EnsureCreated();
         }
         public DbSet<ChannelSnippet> Channels { get; set; }
+        public DbSet<StatisticsDb> Statistic { get; set; }
     }
 }

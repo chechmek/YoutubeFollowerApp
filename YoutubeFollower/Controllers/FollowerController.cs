@@ -34,6 +34,21 @@ namespace YoutubeFollower.Controllers
 
             return Ok(channel);
         }
+        [HttpGet]
+        public async Task<ActionResult<List<Comment>>> CommentsByWord(string channelId, string word)
+        {
+            var comments = await _client.GetCommentsById(channelId);
 
+            var commentsWithWord = new List<Comment>();
+
+            foreach (var comment in comments)
+            {
+                if (comment.Text.Contains(word))
+                {
+                   commentsWithWord.Add(comment);
+                }
+            }
+            return Ok(commentsWithWord);
+        }
     }
 }

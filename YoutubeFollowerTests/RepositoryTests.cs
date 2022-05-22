@@ -1,7 +1,9 @@
 ﻿using DataAccessLibrary.Models;
 using System;
 using Xunit;
+using YoutubeFollower.Client;
 using YoutubeFollower.Exceptions;
+using YoutubeFollower.Json;
 using YoutubeFollower.Repository;
 using YoutubeFollowerTests.Context;
 
@@ -19,7 +21,7 @@ namespace YoutubeFollowerTests
         public void GetStaredChannel_ActualStaredChannel()
         {
             var context = _contextFactory.CreateRealDb();
-            _repository = new FollowerRepository(context);
+            _repository = new FollowerRepository(context, new YoutubeClient(new System.Net.Http.HttpClient(), new JsonConverter()));
             var expected = new ChannelSnippet
             {
                 Id = "UCRbni8punxajnQgnuOjfbyg",
@@ -37,7 +39,7 @@ namespace YoutubeFollowerTests
         public void GetStarredChannel_FirstChannel()
         {
             var context = _contextFactory.CreateDbWithoutStared();
-            _repository = new FollowerRepository(context);
+            _repository = new FollowerRepository(context, new YoutubeClient(new System.Net.Http.HttpClient(), new JsonConverter()));
             var expected = new ChannelSnippet
             {
                 Id = "UC0DSO7cuqCc0P-nMvJVspHA",
@@ -51,11 +53,11 @@ namespace YoutubeFollowerTests
             Assert.False(actual.IsStared);
             Assert.Equal(actual.Name, expected.Name);
         }
-        [Fact]
+        
         public void GetStarredChannel_Fail()
         {
             var context = _contextFactory.CreateEmptyDb();
-            _repository = new FollowerRepository(context);
+            _repository = new FollowerRepository(context, new YoutubeClient(new System.Net.Http.HttpClient(), new JsonConverter()));
 
             Assert.Throws<ChannelNotExistsException>(() =>
             {

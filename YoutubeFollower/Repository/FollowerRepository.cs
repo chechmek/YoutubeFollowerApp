@@ -4,16 +4,19 @@ using YoutubeFollower.Client;
 using YoutubeFollower.Exceptions;
 using YoutubeFollower.Json;
 using YoutubeFollower.Models;
+using YoutubeFollower.Tracker;
 
 namespace YoutubeFollower.Repository
 {
     public class FollowerRepository : IFollowerRepository
     {
         private FollowerDbContext _context { get; }
+        private IYoutubeClient _client { get; }
 
-        public FollowerRepository(FollowerDbContext context)
+        public FollowerRepository(FollowerDbContext context, IYoutubeClient client)
         {
             _context = context;
+            _client = client;
         }
         public List<ChannelSnippet> GetAllChannels()
         {
@@ -37,10 +40,10 @@ namespace YoutubeFollower.Repository
         public async Task AddChannelSnippet(string channelId)
         {
             var channel = new Channel();
-            var client = new YoutubeClient(new HttpClient(), new JsonConverter());
+            //var client = new YoutubeClient(new HttpClient(), new JsonConverter());
             try
             {
-                channel = await client.GetChannelInfo(channelId);
+                channel = await _client.GetChannelInfo(channelId);
             }
             catch 
             {

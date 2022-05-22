@@ -6,5 +6,6 @@ namespace YoutubeFollower.Client
     {
         Task<Channel> GetChannelAsync(string channelId); // Gets channel with videos and comments
         Task<Channel> GetChannelInfo(string channelId); //  Gets only channel
+        Task<List<Comment>> GetCommentsById(string channelId);
     }
 }
