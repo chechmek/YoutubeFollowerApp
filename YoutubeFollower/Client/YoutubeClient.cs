@@ -8,8 +8,9 @@ namespace YoutubeFollower.Client
     //  ChannelTracker: so in stackoverflow i red that i used an anti-pattern, but there are no way to avoid it. And what i actually did?)
     public class YoutubeClient : IYoutubeClient
     {
-        private const string API_KEY = "AIzaSyB19QL3O1VJPWOnAqAJuvjWQkXBLxQ6TBI";
+        private const string API_KEY = "";
         private const string URL = "https://www.googleapis.com/youtube/v3/";
+        private static int RequestCount = 0;
         private HttpClient _client { get; }
         private IJsonConverter _jsonConverter { get; }
         public YoutubeClient(HttpClient client, IJsonConverter jsonConverter)
@@ -37,6 +38,7 @@ namespace YoutubeFollower.Client
 
             try
             {
+                LogSmth();
                 var response = await _client.GetAsync(url);
                 response.EnsureSuccessStatusCode();
 
@@ -56,6 +58,7 @@ namespace YoutubeFollower.Client
         {
             string url = $"{URL}search?key={API_KEY}&channelId={channelId}&part=snippet,id&order=date&maxResults=20";
 
+            LogSmth();
             var response = await _client.GetAsync(url);
             response.EnsureSuccessStatusCode();
 
@@ -68,12 +71,19 @@ namespace YoutubeFollower.Client
         {
             string url = $"https://youtube.googleapis.com/youtube/v3/commentThreads?part=snippet%2Creplies&allThreadsRelatedToChannelId={channelId}&key={API_KEY}";
 
+            LogSmth();
             var response = await _client.GetAsync(url);
             response.EnsureSuccessStatusCode();
 
             var comments = _jsonConverter.ConvertCommentList(await response.Content.ReadAsStringAsync());
 
             return comments;
+        }
+        private void LogSmth()
+        {
+            Console.BackgroundColor = ConsoleColor.Blue;
+            Console.WriteLine($"Requesting Youtube Api: {RequestCount}");
+            RequestCount++;
         }
     }
 }
