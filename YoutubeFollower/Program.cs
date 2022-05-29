@@ -29,7 +29,7 @@ builder.Services.AddJsonConverter();
 builder.Services.AddYoutubeClient();
 builder.Services.AddFollowerRepository();
 
-//builder.Services.AddHostedService<ChannelTracker>();
+builder.Services.AddHostedService<ChannelTracker>();
 
 var app = builder.Build();
 

@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FormGroup, FormControl } from 'react-bootstrap';
-import axios from 'axios';
+import api from '../Helpers/Api';
 
-const api = axios.create({
-    baseURL: "https://localhost:5000/"
-});
 
 function Other() {
     const [channels, setChannels] = useState();

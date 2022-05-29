@@ -3,11 +3,8 @@ import {
     BrowserRouter as Router,
     useParams
 } from "react-router-dom";
-import axios from 'axios';
+import api from '../Helpers/Api';
 
-const api = axios.create({
-    baseURL: "https://localhost:5000/"
-});
 
 function CommentsByWord() {
     const [comments, setComments] = useState();
@@ -32,11 +29,11 @@ function CommentsByWord() {
 
 
                     <h1>Comments with word: {word}</h1>
-                    <div>
+                    <div className="d-flex justify-content-center flex-wrap text-left">
                         {comments.map(com => {
                             const { text, authorName, likeCount } = com;
                             return (
-                                <div style={{ width: "400px", height: "300px" }} >
+                                <div className='border border-left border-secondary rounded' style={{ width: "400px", height: "100px", marginBottom:"20px",marginRight:"20px" }} >
                                     <h6 className="text-left">{authorName}</h6>
                                     <div className="text-left">{text}</div>
                                     <div className="text-left">Likes: {likeCount}</div>

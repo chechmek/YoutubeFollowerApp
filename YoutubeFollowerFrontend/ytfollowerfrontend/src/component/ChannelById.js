@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../Helpers/Api';
 import Channel from './Channel';
 import 'react-multi-carousel/lib/styles.css';
 import {
@@ -7,9 +7,7 @@ import {
     useParams
   } from "react-router-dom";
 
-const api = axios.create({
-    baseURL: "https://localhost:5000/"
-});
+
 
 function ChannelById() {
     const [channelData, setChannel] = useState();

@@ -8,7 +8,7 @@ namespace YoutubeFollower.Client
     //  ChannelTracker: so in stackoverflow i red that i used an anti-pattern, but there are no way to avoid it. And what i actually did?)
     public class YoutubeClient : IYoutubeClient
     {
-        private const string API_KEY = "";
+        private const string API_KEY = "Your Youtube Api key";
         private const string URL = "https://www.googleapis.com/youtube/v3/";
         private static int RequestCount = 0;
         private HttpClient _client { get; }

@@ -17,11 +17,11 @@ namespace YoutubeFollower.Controllers
             _context = context;
         }
         [HttpGet]
-        public async Task<ActionResult<Statistics>> Channel(string channelId)
+        public async Task<ActionResult<Statistics>> Channel(string channelId, int recordsNumber)
         {
             var stats = new Statistics();
 
-            var statsDb = _context.Statistic.Where(ch => ch.ChannelId == channelId).ToList();
+            var statsDb = _context.Statistic.Where(ch => ch.ChannelId == channelId).OrderBy(ch => ch.Date).Take(recordsNumber).ToList();
             if (statsDb == null) throw new ChannelNotExistsException();
 
             try

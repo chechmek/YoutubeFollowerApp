@@ -21,7 +21,7 @@ namespace YoutubeFollower.Repository
         public List<ChannelSnippet> GetAllChannels()
         {
             var channels = _context.Channels.ToList();
-            if(channels is null)
+            if (channels is null)
                 throw new NoChannelsException();
 
             return channels;
@@ -45,7 +45,7 @@ namespace YoutubeFollower.Repository
             {
                 channel = await _client.GetChannelInfo(channelId);
             }
-            catch 
+            catch
             {
                 throw new ChannelNotExistsException();
             }
@@ -58,6 +58,8 @@ namespace YoutubeFollower.Repository
                     IsStared = false
                 };
                 _context.Channels.Add(channelSnippet);
+                AddStatistic(channel.Id, channel.subscriberCount, channel.videoCount, channel.viewCount);
+                
                 await _context.SaveChangesAsync();
             }
             catch
@@ -98,9 +100,9 @@ namespace YoutubeFollower.Repository
                 UnStarAll();
                 var channel = _context.Channels.FirstOrDefault(ch => ch.Id == channelId);
                 channel.IsStared = true;
-                await _context.SaveChangesAsync();  
+                await _context.SaveChangesAsync();
             }
-            catch 
+            catch
             {
                 if (!_context.Channels.Any(ch => ch.Id == channelId))
                 {
@@ -131,6 +133,27 @@ namespace YoutubeFollower.Repository
                     throw;
                 }
             }
+        }
+        public void AddStatistic(string channelId, int subscriberCount, int videosCount, int viewsCount)
+        {
+            try
+            {
+                    _context.Statistic.Add(new StatisticsDb
+                    {
+                        Date = DateTime.Now,
+                        ChannelId = channelId,
+                        SubscriberCount = subscriberCount,
+                        VideosCount = videosCount,
+                        ViewCount = viewsCount
+                    });
+                    Console.BackgroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine($"Adding: {channelId}, view count = {videosCount}, subscribers = {subscriberCount}");
+            }
+            catch
+            {
+                throw new Exception("Id is not valid");
+            }
+            
         }
         private void UnStarAll()
         {

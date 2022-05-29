@@ -4,7 +4,7 @@
     {
         public static IServiceCollection AddYoutubeClient(this IServiceCollection services)
         { 
-            services.AddSingleton<IYoutubeClient, YoutubeClient>(); // FakeYoutubeClient if dont have inet rn)
+            services.AddTransient<IYoutubeClient, YoutubeClient>(); // FakeYoutubeClient if dont have inet rn)
             return services;
         }
     }

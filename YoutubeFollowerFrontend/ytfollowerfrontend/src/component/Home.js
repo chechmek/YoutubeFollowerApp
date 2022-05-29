@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../Helpers/Api';
 import Channel from './Channel';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-
-const api = axios.create({
-    baseURL: "https://localhost:5000/"
-});
 
 function Home() {
     const [channelData, setChannel] = useState();

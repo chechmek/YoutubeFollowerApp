@@ -1,19 +1,20 @@
 import React from 'react';
-import axios from 'axios';
+import api from '../Helpers/Api';
 import CommentsByWord from './CommentsByWord';
 
-const api = axios.create({
-    baseURL: "https://localhost:5000/"
-});
+
 
 function Channel(props) {
     const channel = props.channel;
 
     let commentsByWord = (id) => {
         const word = document.getElementById('inputWord').value;
-        window.open("/commentsbyword/"+id+"/"+word);
+        window.open("/commentsbyword/"+id+"/"+word, "_self");
         
         console.log(word+id);
+    }
+    const showStatistics = (id) => {
+        window.open("/statistics/"+id,"_self");
     }
 
     return (
@@ -29,7 +30,9 @@ function Channel(props) {
                             <h6 style={{ marginRight: "80px" }}>Subscribers: {channel.subscriberCount}</h6>
                             <h6 style={{ marginRight: "80px" }}>Videos: {channel.videoCount}</h6>
                         </div>
-                        <button className='btn btn-secondary' style={{marginBottom:"20px"}}>Detailed Statistics</button>
+
+                        <button onClick={() => showStatistics(channel.id)} className='btn btn-secondary' style={{marginBottom:"20px"}}>Detailed Statistics</button>
+                        
                         <div style={{ marginBottom: "100px" }}>{channel.description}</div>
                         
                         <h2>Videos:</h2>
@@ -38,7 +41,7 @@ function Channel(props) {
                                 const { id, title, mediumThumbnail } = vid;
                                 return (
                                     <a style={{ width: "400px", height: "300px" }} href={"https://www.youtube.com/watch?v=" + id}>
-                                        <a >{title}</a>
+                                        <a >{title.replace(/&quot;/g, '"')}</a>
                                         <img src={mediumThumbnail} height="200" />
                                     </a>)
                             })}
