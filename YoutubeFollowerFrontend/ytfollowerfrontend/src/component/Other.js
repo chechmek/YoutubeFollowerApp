@@ -13,9 +13,9 @@ function Other() {
         });
     }
     let addChannel = () => {
-        const id = document.getElementById('inputChannelId').value;
-        console.log(id);
-        api.post('/repository/addchannel?id=' + id).then(() => {
+        const url = document.getElementById('inputChannelUrl').value;
+        console.log(url);
+        api.post('/repository/addchannel?channelurl=' + encodeURIComponent(url)).then(() => {
             window.location.reload();
         });
     }
@@ -39,7 +39,7 @@ function Other() {
             <div style={{ width: '500px' }}>
                 <form className='form d-flex justify-content-center' style={{marginBottom:"50px"}}>
                     <input value="Add channel" className='btn btn-secondary' onClick={addChannel} />
-                    <input className='form-control' id="inputChannelId" type="text" style={{ width: '300px' }} placeholder="Copy channel ID from youtube URL" />
+                    <input className='form-control' id="inputChannelUrl" type="text" style={{ width: '300px' }} placeholder="Copy channel url from Youtube" />
                 </form>
                 <div>
                     <h3>Your channels</h3>

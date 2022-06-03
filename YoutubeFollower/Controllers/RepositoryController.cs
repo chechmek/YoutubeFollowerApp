@@ -2,6 +2,7 @@
 using DataAccessLibrary.Models;
 using Microsoft.AspNetCore.Mvc;
 using YoutubeFollower.Client;
+using YoutubeFollower.Helpers;
 using YoutubeFollower.Models;
 using YoutubeFollower.Repository;
 
@@ -28,9 +29,10 @@ namespace YoutubeFollower.Controllers
             return Ok(channels);
         }
         [HttpPost]
-        public async Task<ActionResult> AddChannel(string Id)
+        public async Task<ActionResult> AddChannel(string ChannelUrl)
         {
-            //var channelSnippet = _mapper.Map<ChannelSnippet>(channelVM);
+            var idPuller = new IdPuller();
+            string Id = await idPuller.PullFrom(ChannelUrl);
 
             await _repository.AddChannelSnippet(Id);
 

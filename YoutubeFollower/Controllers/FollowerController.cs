@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using YoutubeFollower.Client;
+using YoutubeFollower.Helpers;
 using YoutubeFollower.Models;
 using YoutubeFollower.Repository;
 
